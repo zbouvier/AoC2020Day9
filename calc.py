@@ -1,51 +1,24 @@
 from itertools import combinations 
 f = open("input.txt", "r+").read().splitlines()
+f = list(map(lambda x: int(x), f))
+f.sort()
+f.append(f[-1]+3)
+f = [0]+ f
+print(f)
+for thing in range(len(f)):
+    if(thing < len(f)-1):
+        f[thing] = (f[thing+1] - f[thing])
+count3=f.count(3)
+count1=f.count(1)
+print(count3*count1)
+f = open("input.txt", "r+").read().splitlines()
+f = list(map(lambda x: int(x), f))
+f.sort()
+f.append(f[-1]+3)
+final = {}
+final[0] = 1
+for thing in f:
+    #I think this is called
+    final[thing] = final.get(thing - 3, 0) + final.get(thing - 2, 0) + final.get(thing - 1, 0) 
 
-def part1():
-    preamble = 25
-    count = 0
-    preambleHold = f[0:preamble]
-    sumList = list(map(lambda x: int(x[0])+int(x[1]), (list(combinations(preambleHold, 2)))))
-
-
-    for thing in f[preamble:]:
-        print(thing)
-        #print(sumList)
-        if int(thing) not in sumList:
-            print(f"{thing=}")
-            break
-        else:
-            count+=1
-            preambleHold = f[count:preamble+count]
-            print(preambleHold)
-            sumList = list(map(lambda x: int(x[0])+int(x[1]), (list(combinations(preambleHold, 2)))))
-#part1()
-goal = 22406676
-def part2():
-    flag = False
-    clearedFile = [i for i in f if int(i) < goal]
-    #print(clearedFile) 
-    i = 0
-    while i < len(clearedFile):
-        startingPoint = [int(clearedFile[i-1])]
-        for thing in clearedFile[i:]:
-            print(sum(startingPoint))
-            if sum(startingPoint) >= goal:
-                i+=1
-                break
-            #print(f"adding {thing} to list")
-            startingPoint.append(int(thing))
-        #print(sum(startingPoint))
-        if(sum(startingPoint) == goal):
-            
-            startingPoint.sort()
-            print(startingPoint)
-            print(int(startingPoint[0]+int(startingPoint[len(startingPoint)-1])))
-            break
-        else:
-            #print(sum(startingPoint))
-            i+=1
-
-
-part2()
-        
+print(f'Answer: {final[f[-1]]}')
